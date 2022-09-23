@@ -1,0 +1,19 @@
+site_name: Eyevinn Channel Engine
+site_url: https://vod2live.docs.eyevinn.technology
+site_description: Open Source FAST Channel Engine based on VOD2Live Technology
+site_author: Eyevinn Team
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Tutorials: tutorials/
+theme:
+  name: mkdocs
+  locale: en
+  highlightjs: true
+extra_css:
+  - css/extra.css
+
+plugins:
+  - search
+
+copyright: Copyright &copy; 2022 <a href="https://www.eyevinn.se">Eyevinn Technology AB</a>
