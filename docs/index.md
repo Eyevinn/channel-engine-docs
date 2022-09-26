@@ -8,7 +8,7 @@ The Eyevinn Channel Engine is a server component that uses **VOD2Live** technolo
 
 <div class="text-center">
 <a href="getting-started.html" class="btn btn-primary" role="button">Getting Started</a>
-<a href="tutorials/index.html" class="btn btn-primary" role="button">Tutorials</a>
+<a href="usage-guide.html" class="btn btn-primary" role="button">Usage Guide</a>
 </div>
 <br/>
 
