@@ -8,6 +8,10 @@ This tutorial gives you an introduction to the Eyevinn Channel Engine by describ
 
 ## Installation
 
+Prerequisites:
+
+ - Node.Js v14 to v16 (v18 not supported yet)
+
 Setup a new Node project:
 
 ```bash
