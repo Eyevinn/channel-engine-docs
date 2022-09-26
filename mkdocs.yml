@@ -13,6 +13,8 @@ theme:
 extra_css:
   - css/extra.css
 
+use_directory_urls: false
+
 plugins:
   - search
 

@@ -7,8 +7,8 @@ Open Source FAST Channel Engine based on VOD2Live Technology
 The Eyevinn Channel Engine is a server component that uses **VOD2Live** technology for producing FAST linear channels. VOD2Live technology means that an existing library of already transcoded on-demand streaming video content can be fully reused, removing the need for live retranscoding. Start by reading the [introductory tutorial](getting-started.md) and then move on to some of the [tutorials](tutorials/index.md) that examplifies some use cases this component can solve. 
 
 <div class="text-center">
-<a href="getting-started/" class="btn btn-primary" role="button">Getting Started</a>
-<a href="tutorials/" class="btn btn-primary" role="button">Tutorials</a>
+<a href="getting-started.html" class="btn btn-primary" role="button">Getting Started</a>
+<a href="tutorials/index.html" class="btn btn-primary" role="button">Tutorials</a>
 </div>
 <br/>
 
