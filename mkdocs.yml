@@ -5,7 +5,7 @@ site_author: Eyevinn Team
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
-  - Tutorials: tutorials/
+  - Tutorials: tutorials/index.md
 theme:
   name: mkdocs
   locale: en
