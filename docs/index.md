@@ -20,3 +20,7 @@ These are some examples of what use cases this server component can be used to s
 | Scheduled with ads | Channels based on an EPG and with dynamic ad insertion |
 | Scheduled with live | Channels based on an EPG including some live content |
 | Personalized | Channels unique to each individual viewer | 
+
+<div class="text-center">
+<a href="https://vod2live.eyevinn.technology/" class="btn btn-primary" role="button">DEMO</a>
+</div>
