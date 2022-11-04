@@ -38,7 +38,7 @@ Available options when constructing a Channel Engine server object:
 - `streamSwitchManager`: A reference to a stream switch manager object.
 - `cacheTTL`: Sets the cache-control header TTL. Default is 4 sec.
 - `playheadDiffThreshold`: Sets the threshold when starting to adjust tick interval to compensate for playhead drift.
-- `maxTickInterval`: The maximum interval for playhead tick interval. Default is 10000 ms.
+- `maxTickInterval`: The maximum interval for playhead tick interval. Default is 10000 ms. If this value is set. It needs to be longer than the segment length of the media used. If not set Channel engine will automatically adapt.
 - `cloudWatchMetrics`: Output CloudWatch JSON metrics on console log. Default is false.
 - `useDemuxedAudio`: Enable playing VODs with multiple audio tracks. Default is false.
 - `alwaysNewSegments`: Force all new HLS media sequences to always contain at least 1 new segment. Default is false.
