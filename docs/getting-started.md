@@ -183,7 +183,7 @@ To try this out you can now point your HLS video to player to any of these strea
  - [http://localhost:8080/channels/myfirstchannel/master.m3u8](http://web.player.eyevinn.technology/?manifest=http%3A%2F%2Flocalhost%3A8080%2Fchannels%2Fmyfirstchannel%2Fmaster.m3u8)
  - [http://localhost:8080/channels/mysecondchannel/master.m3u8](http://web.player.eyevinn.technology/?manifest=http%3A%2F%2Flocalhost%3A8080%2Fchannels%2Fmysecondchannel%2Fmaster.m3u8)
 
-###### [For more help and informatio look under Usage Guide](usage-guide.html)
+###### [For more help and information look under Usage Guide](usage-guide.html)
 
 ## Getting help
 
