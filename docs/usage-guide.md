@@ -5,7 +5,7 @@ Channel Engine usage guide.
 Initiate and start the engine.
 
 ```javascript
-const ChannelEngine = require('eyevinn-channel-engine');
+const { ChannelEngine } = require('eyevinn-channel-engine');
 
 const engine = new ChannelEngine(myAssetManager, { channelManager: myChannelManager });
 engine.start();
@@ -16,7 +16,7 @@ where `myAssetManager` and `myChannelManager` are classes implementing the inter
 
 ```javascript
 class MyAssetManager {
-  getNextVod({ sessionId, category, playlistId }) -> { id, title, uri, offset, timedMetadata? }
+  async getNextVod({ sessionId, category, playlistId }) -> { id, title, uri, offset, timedMetadata? }
   handleError(err, vodResponse)
 }
 
@@ -24,6 +24,36 @@ class MyChannelManager {
   getChannels() -> [ { id, name, slate?, closedCaptions?, profile?, audioTracks?, options? } ]
 }
 ```
+
+In version 3.4.0 or higher Typescript types are also provided:
+
+```javascript
+// Typescript
+import { 
+  ChannelEngine,
+  IAssetManager,
+  IChannelManager,
+  VodRequest,
+  VodResponse,
+  Channel
+} from 'eyevinn-channel-engine';
+
+class MyAssetManager implements IAssetManager {
+  async getNextVod(vodRequest: VodRequest): Promise<VodResponse> { ... }
+}
+
+class MyChannelManager implements IChannelManager {
+  getChannels(): Channel[] { ... }
+}
+
+const myAssetManager = new MyAssetManager();
+const myChannelManager = new MyChannelManager();
+
+const engine = new ChannelEngine(myAssetManager, { channelManager: myChannelManager });
+engine.start();
+engine.listen(process.env.port || 8000);
+```
+
 
 ## Available Options
 

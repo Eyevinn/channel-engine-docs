@@ -31,7 +31,7 @@ npm install --save eyevinn-channel-engine
 Create a file called `server-intro.js` that contains the following Javascript snippet:
 
 ```javascript
-const ChannelEngine = require('eyevinn-channel-engine');
+const { ChannelEngine } = require('eyevinn-channel-engine');
 
 class MyAssetManager {
     async getNextVod(vodRequest) {
