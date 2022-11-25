@@ -89,7 +89,7 @@ To support playing assets with multiple audio tracks, a list of supported langua
 Assign to the `audioTracks` property,
 in the return object for the channel manager class's `getChannels()` function, a list of objects in the following format
 
-```javascript
+```js
 {
   language: { type: string } ,
   name:  { type: string },
@@ -97,13 +97,32 @@ in the return object for the channel manager class's `getChannels()` function, a
 }
 ```
 Example value for `audioTracks`:
-```
+```js
 audioTracks = [ { language: "en", name: "English", default: true }, { language: "es", name: "Español" } ];
 ```
 **NOTE:** In the case where an asset does not have a track in a language found in the pre-defined list, then the asset's default track will be played in its place.
 
 Find a simplistic reference implementation for guidance about using demuxed VODs in `./server-demux.js`.
 
+## Enabling Closed-Captions
+
+To support playing assets with in-stream closed-captions, a list of supported languages needs to be pre-defined.
+Assign to the `closedCaptions` property,
+in the return object for the channel manager class's `getChannels()` function, a list of objects in the following format
+
+```js
+{
+  lang: { type: string } ,
+  name:  { type: string },
+  default: { type: bool } // optional, defaults to false
+  auto: { type: bool } // optional, defaults to false
+  id: { type: string } // The HLS INSTREAM-ID
+}
+```
+Example value for `closedCaptions`:
+```js
+closedCaptions = [ { lang: "eng", name: "english", auto: true, default: true, id: "CC1" } ];
+```
 ## High Availability
 
 As the engine is not a stateless microservice accomplish high availablity and redundancy is not a trivial task, and requires a shared cache cluster (also redundant) to store current state.
