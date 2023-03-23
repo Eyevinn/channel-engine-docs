@@ -83,7 +83,6 @@ To filter by video bandwidth use the `systemBitrate` keyword in the query, e.g. 
 You can also combine the filter conditions, e.g. `(type=="video"ANDheight>240)AND(type=="video"ANDsystemBitrate<4141000)`
 
 ## Enabling Demuxed Audio
-**LIMITATIONS:** At the moment, only supported for assets with matching audio track GROUP-IDs. Assets with different GROUP-IDs on their tracks will not be loaded correctly when transitioning between them, resulting in buffer errors. (This will be fixed).
 
 To support playing assets with multiple audio tracks, a list of supported languages needs to be pre-defined.
 Assign to the `audioTracks` property,
@@ -123,7 +122,37 @@ Example value for `closedCaptions`:
 ```js
 closedCaptions = [ { lang: "eng", name: "english", auto: true, default: true, id: "CC1" } ];
 ```
+
+## Channel Profile with Advanced Audio
+
+*Available from v4.x*
+
+To configure the channel profile to support advanced audio codecs such as Dolby Atmos you specify this in the `profile` property returned by the channel manager class's `getChannels()` function.
+
+```js
+[{
+  resolution: { type: number[] }, // array tuple [width, height]
+  bw: number, // bandwidth
+  codecs: string, // codec string e.g. "avc1.64001F,mp4a.40.2"
+  channels: string, // channel layout (default 2 stereo)
+}]
+```
+
+Example channel profile with support for 1080p, stereo + Dolby Atmos:
+
+```js
+      { resolution: [640, 360], bw: 3663471, codecs: "avc1.64001F,mp4a.40.2", channels: "2" },
+      { resolution: [1280, 720], bw: 5841380, codecs: "avc1.64001F,mp4a.40.2", channels: "2" },
+      { resolution: [1920, 1080], bw: 8973571, codecs: "avc1.64001F,mp4a.40.2", channels: "2" },
+
+      { resolution: [640, 360], bw: 4301519, codecs: "avc1.64001F,ec-3", channels: "16/JOC" },
+      { resolution: [1280, 720], bw: 6479428, codecs: "avc1.64001F,ec-3", channels: "16/JOC" },
+      { resolution: [1920, 1080], bw: 9611619, codecs: "avc1.640032,ec-3", channels: "16/JOC" },
+```
+
 ## High Availability
+
+*Available from v3.x*
 
 As the engine is not a stateless microservice accomplish high availablity and redundancy is not a trivial task, and requires a shared cache cluster (also redundant) to store current state.
 
@@ -147,6 +176,8 @@ engine.listen(process.env.port || 8000);
 ```
 
 ## Live Mixing
+
+*Available from v3.x*
 
 This feature gives the possibility to mix in a true live stream in a Channel Engine powered linear channel (VOD2Live).
 
