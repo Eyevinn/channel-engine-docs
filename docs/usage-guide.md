@@ -21,7 +21,7 @@ class MyAssetManager {
 }
 
 class MyChannelManager {
-  getChannels() -> [ { id, name, slate?, closedCaptions?, profile?, audioTracks?, options? } ]
+  getChannels() -> [ { id, name, slate?, closedCaptions?, profile?, audioTracks?, subtitleTracks?, options? } ]
 }
 ```
 
@@ -71,6 +71,7 @@ Available options when constructing a Channel Engine server object:
 - `maxTickInterval`: The maximum interval for playhead tick interval. Default is 10000 ms. If this value is set. It needs to be longer than the segment length of the media used. If not set Channel engine will automatically adapt.
 - `cloudWatchMetrics`: Output CloudWatch JSON metrics on console log. Default is false.
 - `useDemuxedAudio`: Enable playing VODs with multiple audio tracks. Default is false.
+- `useVTTSubtitles`: Enable playing VODs with subtitles. Default is false.
 - `alwaysNewSegments`: Force all new HLS media sequences to always contain at least 1 new segment. Default is false.
 - `diffCompensationRate`: The rate for how much time is added on each sequence to slow down the playhead until it is back on schedule. Default is 0.5 (delay with half a segment duration).
 
@@ -102,6 +103,35 @@ audioTracks = [ { language: "en", name: "English", default: true }, { language: 
 **NOTE:** In the case where an asset does not have a track in a language found in the pre-defined list, then the asset's default track will be played in its place.
 
 Find a simplistic reference implementation for guidance about using demuxed VODs in `./server-demux.js`.
+
+## Enabling Subtitles
+
+To support playing assets with subtitles, a list of all expected languages needs to be pre-defined.
+Assign to the `subtitleTracks` property,
+in the return object for the channel manager class's `getChannels()` function, a list of objects in the following format
+
+```js
+{
+  language: { type: string } ,
+  name:  { type: string },
+  default: { type: bool } // optional
+}
+```
+Example value for `subtitleTracks`:
+```js
+subtitleTracks = [ { language: "en", name: "English", default: true }, { language: "es", name: "Español" } ];
+```
+
+**NOTE:** In the case where an asset does not have a track in a language found in the pre-defined list or subtitles at all,
+channel engine will return a list of segments with links to an endpoint returning empty WebVTT files.
+
+There are some extra options that can be set in regards to subtitles:
+- `dummySubtitleEndpoint`: An endpoint to where it will return empty WebVtt files. By default this is an endpoint inside channel engine.
+- `subtitleSliceEndpoint`: An endpoint that will handle slicing up larger WebVTT files in to smaller files that has the same duration as the video segments. By default this is an endpoint inside channel engine.
+
+If you choose to change these any of these options the endpoints needs to be able to return proper WebVtt files
+
+Find a simplistic reference implementation for guidance about using subtitled VODs in `./server-demux.js`.
 
 ## Enabling Closed-Captions
 
