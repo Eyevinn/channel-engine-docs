@@ -21,7 +21,7 @@ class MyAssetManager {
 }
 
 class MyChannelManager {
-  getChannels() -> [ { id, name, slate?, closedCaptions?, profile?, audioTracks?, options? } ]
+  getChannels() -> [ { id, name, slate?, closedCaptions?, profile?, audioTracks?, subtitleTracks?, options? } ]
 }
 ```
 
@@ -75,7 +75,7 @@ Available options when constructing a Channel Engine server object:
 - `useDemuxedAudio`: Enable playing VODs with multiple audio tracks. Default is false.
 - `dummySubtitleEndpoint`: Endpoint to dummy subtitle segments, for the case where Channel Engine requires subtitles but source content has none. Default is "/vtt/dummyUrl" (Channel Engine has a default dummy segment handler).
 - `subtitleSliceEndpoint`: Endpoint to service which can slice a larger webvtt file into several subset webvtt files. Default is "/vtt/sliceUrl" (Channel Engine has a default Slicer).
-- `useVTTSubtitles`: Enable playing VODs with multiple subtitle tracks. Default is false.
+- `useVTTSubtitles`: Enable playing VODs with subtitles. Default is false.
 - `alwaysNewSegments`: Force all new HLS media sequences to always contain at least 1 new segment. Default is false.
 - `alwaysMapBandwidthByNearest`: When loading the next VOD in playlist, force mapping bandwidths between previous and next by nearest bandwidth value.
 - `diffCompensationRate`: The rate for how much time is added on each sequence to slow down the playhead until it is back on schedule. Default is 0.5 (delay with half a segment duration).
@@ -96,7 +96,6 @@ To filter by video bandwidth use the `systemBitrate` keyword in the query, e.g. 
 You can also combine the filter conditions, e.g. `(type=="video"ANDheight>240)AND(type=="video"ANDsystemBitrate<4141000)`
 
 ## Enabling Demuxed Audio
-**LIMITATIONS:** At the moment, only supported for assets with matching audio track GROUP-IDs. Assets with different GROUP-IDs on their tracks will not be loaded correctly when transitioning between them, resulting in buffer errors. (This will be fixed).
 
 To support playing assets with multiple audio tracks, a list of supported languages needs to be pre-defined.
 Assign to the `audioTracks` property,
@@ -117,6 +116,35 @@ audioTracks = [ { language: "en", name: "English", default: true }, { language: 
 
 Find a simplistic reference implementation for guidance about using demuxed VODs in `./server-demux.js`.
 
+## Enabling Subtitles
+
+To support playing assets with subtitles, a list of all expected languages needs to be pre-defined.
+Assign to the `subtitleTracks` property,
+in the return object for the channel manager class's `getChannels()` function, a list of objects in the following format
+
+```js
+{
+  language: { type: string } ,
+  name:  { type: string },
+  default: { type: bool } // optional
+}
+```
+Example value for `subtitleTracks`:
+```js
+subtitleTracks = [ { language: "en", name: "English", default: true }, { language: "es", name: "Español" } ];
+```
+
+**NOTE:** In the case where an asset does not have a track in a language found in the pre-defined list or subtitles at all,
+channel engine will return a list of segments with links to an endpoint returning empty WebVTT files.
+
+There are some extra options that can be set in regards to subtitles:
+- `dummySubtitleEndpoint`: An endpoint to where it will return empty WebVtt files. By default this is an endpoint inside channel engine.
+- `subtitleSliceEndpoint`: An endpoint that will handle slicing up larger WebVTT files in to smaller files that has the same duration as the video segments. By default this is an endpoint inside channel engine.
+
+If you choose to change these any of these options the endpoints needs to be able to return proper WebVtt files
+
+Find a simplistic reference implementation for guidance about using subtitled VODs in `./server-demux.js`.
+
 ## Enabling Closed-Captions
 
 To support playing assets with in-stream closed-captions, a list of supported languages needs to be pre-defined.
@@ -136,7 +164,37 @@ Example value for `closedCaptions`:
 ```js
 closedCaptions = [ { lang: "eng", name: "english", auto: true, default: true, id: "CC1" } ];
 ```
+
+## Channel Profile with Advanced Audio
+
+*Available from v4.x*
+
+To configure the channel profile to support advanced audio codecs such as Dolby Atmos you specify this in the `profile` property returned by the channel manager class's `getChannels()` function.
+
+```js
+[{
+  resolution: { type: number[] }, // array tuple [width, height]
+  bw: number, // bandwidth
+  codecs: string, // codec string e.g. "avc1.64001F,mp4a.40.2"
+  channels: string, // channel layout (default 2 stereo)
+}]
+```
+
+Example channel profile with support for 1080p, stereo + Dolby Atmos:
+
+```js
+      { resolution: [640, 360], bw: 3663471, codecs: "avc1.64001F,mp4a.40.2", channels: "2" },
+      { resolution: [1280, 720], bw: 5841380, codecs: "avc1.64001F,mp4a.40.2", channels: "2" },
+      { resolution: [1920, 1080], bw: 8973571, codecs: "avc1.64001F,mp4a.40.2", channels: "2" },
+
+      { resolution: [640, 360], bw: 4301519, codecs: "avc1.64001F,ec-3", channels: "16/JOC" },
+      { resolution: [1280, 720], bw: 6479428, codecs: "avc1.64001F,ec-3", channels: "16/JOC" },
+      { resolution: [1920, 1080], bw: 9611619, codecs: "avc1.640032,ec-3", channels: "16/JOC" },
+```
+
 ## High Availability
+
+*Available from v3.x*
 
 As the engine is not a stateless microservice accomplish high availablity and redundancy is not a trivial task, and requires a shared cache cluster (also redundant) to store current state.
 
@@ -160,6 +218,8 @@ engine.listen(process.env.port || 8000);
 ```
 
 ## Live Mixing
+
+*Available from v3.x*
 
 This feature gives the possibility to mix in a true live stream in a Channel Engine powered linear channel (VOD2Live).
 
