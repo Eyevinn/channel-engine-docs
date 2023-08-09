@@ -60,8 +60,10 @@ engine.listen(process.env.port || 8000);
 Available options when constructing a Channel Engine server object:
 
 - `defaultSlateUri`: URI to an HLS VOD that can be inserted when a VOD for some reason cannot be loaded.
-- `slateRepetitions`: Number of times the slate should be repeated.
+- `slateRepetitions`: Number of times the slate should be repeated. Default is 10.
+- `slateDuration`: Duration of the slate. Used to calculate number of repititions needed for reaching desiredDuration. Default is 4000 ms.
 - `redisUrl`: A Redis DB URL for storing states that can be shared between nodes.
+- `memcachedUrl`: A MemcachedUrl DB URL for storing states that can be shared between nodes.
 - `sharedStoreCacheTTL`: How long should data be cached in memory before writing to shared store. Default is 1000 ms.
 - `heartbeat`: Path for heartbeat requests
 - `channelManager`: A reference to a channel manager object.
@@ -71,9 +73,19 @@ Available options when constructing a Channel Engine server object:
 - `maxTickInterval`: The maximum interval for playhead tick interval. Default is 10000 ms. If this value is set. It needs to be longer than the segment length of the media used. If not set Channel engine will automatically adapt.
 - `cloudWatchMetrics`: Output CloudWatch JSON metrics on console log. Default is false.
 - `useDemuxedAudio`: Enable playing VODs with multiple audio tracks. Default is false.
+- `dummySubtitleEndpoint`: Endpoint to dummy subtitle segments, for the case where Channel Engine requires subtitles but source content has none. Default is "/vtt/dummyUrl" (Channel Engine has a default dummy segment handler).
+- `subtitleSliceEndpoint`: Endpoint to service which can slice a larger webvtt file into several subset webvtt files. Default is "/vtt/sliceUrl" (Channel Engine has a default Slicer).
 - `useVTTSubtitles`: Enable playing VODs with subtitles. Default is false.
 - `alwaysNewSegments`: Force all new HLS media sequences to always contain at least 1 new segment. Default is false.
+- `alwaysMapBandwidthByNearest`: When loading the next VOD in playlist, force mapping bandwidths between previous and next by nearest bandwidth value.
 - `diffCompensationRate`: The rate for how much time is added on each sequence to slow down the playhead until it is back on schedule. Default is 0.5 (delay with half a segment duration).
+- `staticDirectory`: Name of static directory for restify server on "/" path. Default is "index.html".
+- `averageSegmentDuration`: Estimated average segment duration. Default is 3000 ms. (soon deprecated)
+- `targetDurationPadding`: Padding to add to the hls manifest's "#EXT-X-TARGET-DURATION:" value. When not set, will use a targetduration equal to the segment with the longest duration in the entire VOD.
+- `forceTargetDuration`: Locks the hls manifest's "#EXT-X-TARGET-DURATION:" to a specified value.
+- `noSessionDataTags`: Disables including Channel Engine "#EXT-X-SESSION-DATA" tags in Multivariant manifest.
+- `volatileKeyTTL`: TTL for the volatileKey, used for High-Availability mode. To keep check if a Channel Engine instance is alive. Default is 5 sec.
+- `autoCreateSession`: Enable automatic creation of a channel/session through the 'channel' query parameter. 
 
 ## Master manifest filtering
 
