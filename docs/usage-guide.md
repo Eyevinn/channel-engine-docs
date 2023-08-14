@@ -77,7 +77,8 @@ Available options when constructing a Channel Engine server object:
 - `subtitleSliceEndpoint`: Endpoint to service which can slice a larger webvtt file into several subset webvtt files. Default is "/vtt/sliceUrl" (Channel Engine has a default Slicer).
 - `useVTTSubtitles`: Enable playing VODs with subtitles. Default is false.
 - `alwaysNewSegments`: Force all new HLS media sequences to always contain at least 1 new segment. Default is false.
-- `alwaysMapBandwidthByNearest`: When loading the next VOD in playlist, force mapping bandwidths between previous and next by nearest bandwidth value.
+- `partialStoreHLSVod`: Enable partial storing strategy, to reduce size of HLSVod in shared storage. However, this will mean that follower nodes will have to do some computing after reading the HLSVod from shared store. Default is false.
+- `alwaysMapBandwidthByNearest`: When loading the next VOD in playlist, force mapping bandwidths between previous and next by nearest bandwidth value. Default is false.
 - `diffCompensationRate`: The rate for how much time is added on each sequence to slow down the playhead until it is back on schedule. Default is 0.5 (delay with half a segment duration).
 - `staticDirectory`: Name of static directory for restify server on "/" path. Default is "index.html".
 - `averageSegmentDuration`: Estimated average segment duration. Default is 3000 ms. (soon deprecated)
