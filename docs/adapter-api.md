@@ -1,5 +1,9 @@
 # Adapater APIs
 
+The interfaces an adapter need to implement.
+
+---
+
 All business logic is defined in code outside of the Channel Engine. The engine's main task is to produce live HLS streams and has no knowledge or logic on what to actually play next and what channels it is supposed to serve.
 
 This logic is placed in two adapters `AssetManager` and `ChannelManager`. The engine requests from the `AssetManager` on what to play up next and the `ChannelManager` to get a list of channels are available.
