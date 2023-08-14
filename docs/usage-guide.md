@@ -12,7 +12,7 @@ engine.start();
 engine.listen(process.env.port || 8000);
 ```
 
-where `myAssetManager` and `myChannelManager` are classes implementing the interfaces below.
+where `myAssetManager` and `myChannelManager` are classes implementing the [interfaces](adapter-api.md) below.
 
 ```javascript
 class MyAssetManager {
