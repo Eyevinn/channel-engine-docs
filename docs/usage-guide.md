@@ -87,9 +87,9 @@ Available options when constructing a Channel Engine server object:
 - `noSessionDataTags`: Disables including Channel Engine "#EXT-X-SESSION-DATA" tags in Multivariant manifest.
 - `volatileKeyTTL`: TTL for the volatileKey, used for High-Availability mode. To keep check if a Channel Engine instance is alive. Default is 5 sec.
 - `autoCreateSession`: Enable automatic creation of a channel/session through the 'channel' query parameter. 
-- `sessionResetKey`: Set Api-key for accessing the channel reset endpoint. If set, the reset endpont will require a key query parameter, i.e. *"/reset/:sessionId?key=\<api-key\>"*.
+- `sessionResetKey`: Set Api-key for accessing the channel reset endpoint. If set, the reset endpont will require a key query parameter, i.e. *"/reset/:sessionId?key=<api-key\>"*.
 - `keepAliveTimeout`: Set how long keep alive timeout should be on the restify server. Default is 5 sec.
-- `sessionEventStream`: Enable Channel Event Stream. Default is false. Consume channel events at endpoint *"eventstream/:sessionId"*.
+- `sessionEventStream`: Enable Channel Event Stream. Default is false. Consume channel events at endpoint *"/eventstream/:sessionId"*.
 
 ## Master manifest filtering
 
